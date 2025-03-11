@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class PomoScreen extends StatefulWidget {
   const PomoScreen({super.key});
@@ -17,10 +18,16 @@ class _PomoScreenState extends State<PomoScreen> {
   int totalSeconds = pomodoroTime;
   bool isRunning = false;
   bool isFinished = false;
+  String _today = "";
 
   @override
   void initState() {
     super.initState();
+
+    DateTime today = DateTime.now();
+    setState(() {
+      _today = DateFormat('yyyy.MM.dd EEEE', 'ko_KR').format(today);
+    });
   }
 
   @override
@@ -69,14 +76,17 @@ class _PomoScreenState extends State<PomoScreen> {
   }
 
   void onSavePressed() {
-    if (_formKey.currentState!.validate()) {
-      debugPrint('토마토: ${_textController.text}');
-    } else {
-      setState(() {
-        validationMessage = '태그 입력 후 저장해주세요!';
-      });
-      return;
-    }
+    // API 연동 후 주석 제거하기
+    // if (_formKey.currentState!.validate()) {
+    //   debugPrint('토마토: ${_textController.text}');
+    // } else {
+    //   setState(() {
+    //     validationMessage = '태그 입력 후 저장해주세요!';
+    //   });
+    //   return;
+    // }
+
+    onResetPressed();
   }
 
   @override
@@ -86,11 +96,10 @@ class _PomoScreenState extends State<PomoScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        const Text(
-          "2025.03.08.토요일",
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
+        Text(
+          _today,
+          style: const TextStyle(
+            fontSize: 15,
             letterSpacing: -0.3,
           ),
         ),
